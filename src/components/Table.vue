@@ -2,21 +2,21 @@
     <div class="container">
         <v-simple-table>
             <template v-slot:top>
-                <h4>{{table.table_name}}</h4>
+                <h4>{{report.table_name}}</h4>
             </template>
             <template>
                 <thead>
                 <tr class="header">
                     <th
                             class="white--text"
-                            v-for="(value, index) in table.header"
+                            v-for="(value, index) in report.header"
                             :key="index"
                     >{{value.text}}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(items, index) in table.table" :key="index">
+                <tr v-for="(items, index) in report.table" :key="index">
                     <td :class="item.class" v-for="(item, index) in items" :key="index">{{item.value}}</td>
                 </tr>
                 </tbody>
@@ -28,21 +28,30 @@
 </template>
 
 <script>
-    // import { mapGetters } from 'vuex';
-    import {GetTable} from "@/assets/js/tables.js";
-
+    import {Table_Functional_Structure, Table_Department_Structure} from "@/assets/js/get_table";
 
     export default {
-        name: "HeaderFile",
+        props: {
+            type: String
+        },
         data() {
-            return {
-                // table: null,
-            }
+            return {}
         },
         computed: {
-            table() {
-                return GetTable(this.$store.getters.getFile);
-            }
+            report() {
+                let table = {};
+                if (this.type === 'Функциональная структура расходов') {
+                    table = Table_Functional_Structure(
+                        this.$store.getters.getFile,
+                        this.$store.getters.getfilterdepartments,
+                        this.$store.getters.getfilterdivisions,
+                        this.$store.getters.getfiltertargetitems
+                    );
+                } else if (this.type === 'Ведомственная структура расходов') {
+                    table = Table_Department_Structure(this.$store.getters.getFile);
+                }
+                return table;
+            },
         }
 
     }
