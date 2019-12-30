@@ -51,6 +51,9 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row align="center" justify="center">
+            <a href="https://github.com/Trotskyst/ReportGenerator/raw/master/example.xlsx" download>Скачать пример файла</a>
+        </v-row>
     </v-container>
 </template>
 

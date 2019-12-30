@@ -48,7 +48,12 @@
                         this.$store.getters.getfiltertargetitems
                     );
                 } else if (this.type === 'Ведомственная структура расходов') {
-                    table = Table_Department_Structure(this.$store.getters.getFile);
+                    table = Table_Department_Structure(
+                        this.$store.getters.getFile,
+                        this.$store.getters.getfilterdepartments,
+                        this.$store.getters.getfilterdivisions,
+                        this.$store.getters.getfiltertargetitems
+                    );
                 }
                 return table;
             },

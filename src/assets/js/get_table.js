@@ -1,3 +1,13 @@
+function ObjectFilter(obj, filter_departments, filter_divisions, filter_targetitems) {
+    if (filter_departments.length > 0)
+        obj = obj.filter(e => filter_departments.includes(e.ved_code));
+    if (filter_divisions.length > 0)
+        obj = obj.filter(e => filter_divisions.includes(e.podr_code));
+    if (filter_targetitems.length > 0)
+        obj = obj.filter(e => filter_targetitems.includes(e.cs_code));
+    return obj;
+}
+
 function ObjectToPush(number, name, code1, code2, code3, code4, code5, array) {
     let array_of_sum = SumFromArray(array);
     let formatter = new Intl.NumberFormat("ru");
@@ -30,13 +40,7 @@ function SumFromArray(array) {
 }
 
 export function Table_Functional_Structure(obj, filter_departments, filter_divisions, filter_targetitems) {
-    if (filter_departments.length > 0)
-        obj = obj.filter(e => filter_departments.includes(e.ved_code));
-    if (filter_divisions.length > 0)
-        obj = obj.filter(e => filter_divisions.includes(e.podr_code));
-    if (filter_targetitems.length > 0)
-        obj = obj.filter(e => filter_targetitems.includes(e.cs_code));
-
+    obj = ObjectFilter(obj, filter_departments, filter_divisions, filter_targetitems);
     const table = [];
     const array_razdel = [...new Set(obj.map(item => item.razdel_code))].sort();
     let i1 = 0;
@@ -111,7 +115,8 @@ export function Table_Functional_Structure(obj, filter_departments, filter_divis
 }
 
 
-export function Table_Department_Structure(obj) {
+export function Table_Department_Structure(obj, filter_departments, filter_divisions, filter_targetitems) {
+    obj = ObjectFilter(obj, filter_departments, filter_divisions, filter_targetitems);
     const table = [];
     const array_ved = [...new Set(obj.map(item => item.ved_code))].sort();
     let i1 = 0;
